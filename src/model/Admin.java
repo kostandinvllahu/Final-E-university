@@ -5,6 +5,8 @@ import java.util.GregorianCalendar;
 
 public class Admin extends User { 
 
+	//Klasa Admin qe i shton vlerat te User me extend dhe merr te dhenat si 
+	//username,password,id, ditelindjen, name, surname,gender,address,phonenumber, email,active/not active
 	public Admin(String username, String password) {
 		super(username, password);
 		// TODO Auto-generated constructor stub
