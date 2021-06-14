@@ -2,9 +2,11 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -71,6 +73,8 @@ public class ViewCourseAnnouncementsWindow extends Window{
 			announcementTextArea.setWrapStyleWord(true);
 			announcementTextArea.setBorder(null);
 			announcementTextArea.setFont(new JTextField().getFont());
+			announcementTextArea.setEditable(false);
+			
 			JScrollPane announcementTextAreaScrollPane = new JScrollPane(announcementTextArea);
 			announcementTextAreaScrollPane.setBackground(Settings.COLOR1);
 			announcementTextAreaScrollPane.setBorder(null);
@@ -85,6 +89,18 @@ public class ViewCourseAnnouncementsWindow extends Window{
 		coursePanelScrollPane.setBorder(null);
 		coursePanelScrollPane.setPreferredSize(new Dimension(800, 300));
 		mainPanel.add(coursePanelScrollPane);
+		
+		JButton addNewAnnouncementBtn = new JButton("New Announcement"); 
+		
+		JPanel newAnnouncementPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+		centerPanel.setBackground(Settings.COLOR1);
+		newAnnouncementPanel.add(addNewAnnouncementBtn);
+		
+		addNewAnnouncementBtn.addActionListener((e)->{
+			new AddCourseAnnouncementWindow(course);
+		});
+		
+		mainPanel.add(newAnnouncementPanel, BorderLayout.SOUTH);
 		
 		add(mainPanel);
 

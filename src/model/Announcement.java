@@ -2,7 +2,7 @@ package model;
 
 import java.util.GregorianCalendar; //importuar kalendari gregorian per kalendarin e perdorur ne kod
 
-public class Announcement{
+public class Announcement {
 
 	private int systemId; 
 	private GregorianCalendar date;

@@ -7,6 +7,7 @@ import java.util.GregorianCalendar;
  
 public class Person  { 
 
+	//Deklarohen gender
 	public enum Gender {
 		
 		MALE, 
@@ -14,7 +15,7 @@ public class Person  {
 		OTHER;
 		
 	}
-
+//deklarohen te dhenat e studentit qe do marrin vlerat
 	private int systemId;
 	private String nationalId;
 	private String name;
@@ -25,7 +26,8 @@ public class Person  {
 	private ArrayList<String> emails;
 	private String address;
 	private File profileImg;
-	
+	/*Vlerat futen te string dhe int perkatese, dhe rregjistrohen ne databaze
+	 * */
 	public Person(String nationalId) {
 		this(nationalId, "", "", 
 			 new GregorianCalendar(1970, 0, 1),

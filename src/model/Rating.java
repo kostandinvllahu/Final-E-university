@@ -3,7 +3,7 @@ package model;
 import java.util.GregorianCalendar;
 
 public class Rating {
-
+//Ketu studentet kane te drejte te bejn rate nje klase dhe te bejn komente ne baze te lendes dhe te pedagogut
 	private int systemId;
 	private Student student;
 	private GregorianCalendar date;

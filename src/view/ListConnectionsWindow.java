@@ -29,6 +29,7 @@ public class ListConnectionsWindow extends Window{
 	public ListConnectionsWindow() {
 		
 		ArrayList<Student> list = DBHandler.db.getMyConnections();
+	
 		
 		if (list.size() == 0) {
 			JOptionPane.showMessageDialog(null, "0 connections!");

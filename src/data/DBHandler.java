@@ -428,10 +428,10 @@ public class DBHandler {
 			Statement stm = connection.createStatement();
 			ResultSet rs = stm.executeQuery("SELECT * FROM " + 
 					 dbName + ".rating WHERE course_id='" + courseId + "'");
-			while(rs.next()) {
+			while(rs.next()) { 
 				GregorianCalendar date = new GregorianCalendar();
-				date.setTimeInMillis(Long.parseLong(rs.getString(3)));
-				Rating rating = new Rating(getStudent(rs.getInt(2)), date, rs.getString(4), rs.getInt(5));
+				date.setTimeInMillis(Long.parseLong(rs.getString(4))); 
+				Rating rating = new Rating(getStudent(rs.getInt(2)), date, rs.getString(5), rs.getInt(6));
 				rating.setSystemId(rs.getInt(1));
 				list.add(rating);
 			}
@@ -445,8 +445,7 @@ public class DBHandler {
 	}
 
 	private Student getStudent(int studentId) {
-		Student student = null;
-		System.out.println(studentId);
+		Student student = null; 
 		try {
 			Statement stm = connection.createStatement();
 			ResultSet rs = stm.executeQuery("SELECT * FROM " + 
@@ -465,20 +464,20 @@ public class DBHandler {
 				ResultSet rss = stms.executeQuery("SELECT * FROM " + dbName + ".student WHERE "
 						+ "user_system_id=" + studentId);
 				if(rss.next()) { 
-				student = new Student(rs.getString(2),
-						rs.getString(3), rs.getString(4), 
-						birthday, gender, rs.getString(7), 
-						getUserPhoneNumbers(studentId), 
-						getUserEmails(studentId), 
-						rs.getString(9), rs.getString(10), 
-						rs.getInt(11) == 1, rss.getString(2), 
-						rss.getInt(4) == 1, rss.getString(3), 
-						rss.getInt(5) == 1, studentId); 
+					student = new Student(rs.getString(2),
+							rs.getString(3), rs.getString(4), 
+							birthday, gender, rs.getString(7), 
+							getUserPhoneNumbers(studentId), 
+							getUserEmails(studentId), 
+							rs.getString(9), rs.getString(10), 
+							rs.getInt(11) == 1, rss.getString(2), 
+							rss.getInt(4) == 1, rss.getString(3), 
+							rss.getInt(5) == 1, studentId); 
 				}
 				rss.clearWarnings();
 				stms.close();
-				student.setSystemId(studentId);
-				student.setProfileImg(new File(rs.getString(8)));
+				//student.setSystemId(studentId);
+				//student.setProfileImg(new File(rs.getString(8)));
 			}
 			rs.clearWarnings();
 			stm.close();		
@@ -488,7 +487,7 @@ public class DBHandler {
 		}
 		return student;
 	}
-
+//Dhe kjo ishte private dhe u be publike
 	private ArrayList<Announcement> getAnnouncements(int courseId) {
 		ArrayList<Announcement> list = new ArrayList<Announcement>();
 		try {
@@ -533,12 +532,10 @@ public class DBHandler {
 	public void deleteCourse(Course course) {
 		try {
 			PreparedStatement pstm = connection.prepareStatement("DELETE FROM " + 
-					 dbName + ".course WHERE course_id='" + course.getSystemId() + "'");
-			System.out.println(pstm.executeUpdate());
+					 dbName + ".course WHERE course_id='" + course.getSystemId() + "'"); 
 			pstm.close();
 			pstm = connection.prepareStatement("DELETE FROM " + 
-					 dbName + ".student_course WHERE course_id='" + course.getSystemId() + "'");
-			System.out.println(pstm.executeUpdate());
+					 dbName + ".student_course WHERE course_id='" + course.getSystemId() + "'"); 
 			pstm.close();
 		}
 		catch(Exception ex) {
@@ -646,7 +643,8 @@ public class DBHandler {
 		}
 	}
 	
-	private int getCourseId(String courseTitle) {
+	//kjo ishte private ne fillim
+	public int getCourseId(String courseTitle) {
 		try {
 			Statement stm = connection.createStatement();
 			ResultSet rs = stm.executeQuery("SELECT course_id FROM " + dbName +
@@ -736,7 +734,19 @@ public class DBHandler {
 		catch(Exception ex) {
 			ex.printStackTrace();
 		}
+		removeNullValues(list);
 		return list;
+	}
+
+	private void removeNullValues(ArrayList<Student> list) {
+		for (int i = 0; i < list.size(); ) {
+			if(list.get(i) == null) {
+				list.remove(i);
+			}
+			else {
+				i++;
+			}
+		}
 	}
 
 	public void removeStudentConnection(Student student) {
@@ -1283,6 +1293,22 @@ public class DBHandler {
 							  ", \"" + rating.getDate().getTimeInMillis() + "\"" + 
 							  ", \"" + rating.getComment() + "\"" + 
 							  ", \"" + rating.getRatingValue() + "\")");
+			 stm.close();
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	public void addAnnouncementToCourse(Announcement announcement, Course course) {
+		try {
+			Statement stm = connection.createStatement();
+			stm.executeUpdate("INSERT INTO " + dbName + ".announcement "
+					+ "(course_id, date, description, title) "
+					+ "VALUES (\"" + course.getSystemId() + "\"" + 
+							  ", \"" + announcement.getDate().getTimeInMillis() + "\"" + 
+							  ", \"" + announcement.getDescription() + "\"" + 
+							  ", \"" + announcement.getTitle() + "\")");
 			 stm.close();
 		}
 		catch(Exception ex) {
