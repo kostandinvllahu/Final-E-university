@@ -1328,5 +1328,23 @@ public class DBHandler {
 			ex.printStackTrace();
 		}
 	}
-
+	
+	///==================TEST KETU======================
+	public int getTimeTable(String timeTable) {
+		try {
+			Statement stm = connection.createStatement();
+			ResultSet rs = stm.executeQuery("SELECT * from " + dbName + ".timetable");
+			int id = 0;
+			if(rs.next()) {
+				id = rs.getInt(1);
+			}
+			rs.clearWarnings();
+			stm.close();
+			return id;
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		return 0;
+	}
 }
